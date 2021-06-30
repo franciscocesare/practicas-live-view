@@ -3,30 +3,29 @@ defmodule TwitterClonWeb.PageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    counters = Enum.to_list(1..10) |> Enum.map(fn x -> %{:id => x, :count => 0} end)
+    counters = Enum.to_list(1..10) |> Enum.map(fn x -> %{:id => x, :count => 1} end)
     {:ok, assign(socket, counters: counters , query: "", results: %{})}
   end
 
   def handle_event("increment", %{"id" => params}, socket) do
-    IO.inspect(socket.assigns)
-    case Enum.filter(socket.assigns.counters, fn x -> Map.has_key?(x, "count") end) do
-      :true -> IO.puts("oh yeah")
-      [] -> IO.puts("oh nao") #este puse porque me devolvia una lista vacia
-    end
-    # case Map.has_key?(socket.assigns.counters, params) do
-    #   :true -> Map.get_and_update(socket.assigns.counters, [params, "count"], &(&1 + 1))
-    #   :false -> IO.puts("NO NO NOOO ")
-    # end
-    IO.inspect(params) #asi params trae el id 
-    {:noreply, assign(socket, counters: socket.assigns.counters[params].count + 1)} #mal
+    #IO.inspect(socket.assigns)
+    update_list = socket.assigns.counters
+    |> Enum.map(fn item -> if item.id == params, do: %{count: item.count + 1, id: item.id}, else: item end)
+    
+    # case Enum.filter(socket.assigns.counters, fn x -> Map.has_key?(x, "count") end) do
+    #   :true -> IO.puts("oh yeah")
+    #   [] -> IO.puts("oh nao") #este puse porque me devolvia una lista vacia
+        
+    {:noreply, assign(socket, counters: update_list)} #mal
   end           #tengo que ver como accedo al count de c/counter
 
-  #los params son los phx-value y eso del html. o en mi caso el id
-  def handle_event("decrement", params, socket) do
-    IO.inspect(params)
-    {:noreply, assign(socket, counters: socket.assigns.counters[params["id"]].count-1)} #key es counters, value de esekey??
-   # {:noreply, assign(socket, count: socket.assigns.counters[params["id"]].count-1)}
-    IO.inspect(socket)
+  def handle_event("decrement", %{"id" => params_id}, socket) do
+    IO.inspect(socket.assigns.counters)
+    update_list = socket.assigns.counters 
+    |> Enum.map(fn item -> if item.id == params_id, do: IO.puts("Holis"), else: IO.puts(item.id) end)
+    #IO.inspect(update_list)
+    {:noreply, assign(socket, counters: update_list)} 
+    
   end
   
   
