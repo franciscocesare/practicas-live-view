@@ -1,0 +1,25 @@
+<section class="phx-hero">
+  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
+  <p>Peace of mind from prototype to production</p>
+
+  <form phx-change="suggest" phx-submit="search">
+    <input type="text" name="q" value="<%= @query %>" placeholder="Live dependency search" list="results" autocomplete="off"/>
+    <datalist id="results">
+      <%= for {app, _vsn} <- @results do %>
+        <option value="<%= app %>"><%= app %></option>
+      <% end %>
+    </datalist>
+    <button type="submit" phx-disable-with="Searching...">Go to Hexdocsss</button>
+  </form>
+</section>
+
+<section class="row">
+  <div class="column">
+  <%= for counter <- @counters do %>
+    <h1> Contador <%= counter.id %> = <%= counter.count %></h1>
+      <button phx-value-id="<%= counter.id %>" phx-click="increment">Incrementar</button>
+      <button phx-value-id= "<%= counter.id %>" phx-click="decrement">Decrementar</button>
+    <% end %>
+  </div>
+
+</section>
