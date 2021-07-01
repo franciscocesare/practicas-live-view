@@ -87,6 +87,21 @@ header nav a {
   display: block;
 }
 
+.container-fluid{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 50px 100px;
+}
+
+.item{
+  min-width: 15em;
+  padding-bottom: 50px;
+}
+
+.name{
+  flex: 3;
+}
+
 @media (min-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
   header section {
     flex-direction: row;
