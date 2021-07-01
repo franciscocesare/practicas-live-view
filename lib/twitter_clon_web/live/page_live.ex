@@ -6,10 +6,7 @@ defmodule TwitterClonWeb.PageLive do
     {:ok, assign(socket, counters: gen_counters(10) , query: "", results: %{})}
   end
 
-  def handle_event("increment", params, socket) do
-
-    IO.inspect params
-    %{"id" => counter_id} = params
+  def handle_event("increment", %{"id" => counter_id}, socket) do
     {:noreply, assign(socket, counters: increment_counters(socket.assigns.counters, counter_id))}
   end
 
