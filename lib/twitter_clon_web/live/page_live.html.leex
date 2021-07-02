@@ -1,24 +1,14 @@
 <div class="container">
 <section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>Peace of mind from prototype to production</p>
-
-  <form phx-change="suggest" phx-submit="search">
-    <input type="text" name="q" value="<%= @query %>" placeholder="Live dependency search" list="results" autocomplete="off"/>
-    <datalist id="results">
-      <%= for {app, _vsn} <- @results do %>
-        <option value="<%= app %>"><%= app %></option>
-      <% end %>
-    </datalist>
-    <button type="submit" phx-disable-with="Searching...">Go to Hexdocsss</button>
-  </form>
+  <h1><%= gettext "Welcome to %{name} Counters!", name: "Generate" %></h1>
+  <p>Practice Phoenix and Elixir, never was most funny</p>
+<button phx-click="create">Create Counters</button>
 </section>
 </div>
-
 <section class="container-fluid">
   <%= for {counter_id, value} <- @counters do %>
     <article class="item">
-      <h3 c;ass="name">Contador - <%= counter_id %> </h3>
+      <h3 class="name">Contador - <%= counter_id %> </h3>
       <button phx-value-id="<%= counter_id %>" phx-click="decrement">-</button>
       <span><%= value %></span>
       <button phx-value-id="<%= counter_id %>" phx-click="increment">+</button>
