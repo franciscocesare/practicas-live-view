@@ -6,7 +6,7 @@
 </section>
 </div>
 <section class="container-fluid">
-  <%= for {counter_id, value} <- @counters do %>
+  <%= for {counter_id, value} <- @counters |> Enum.sort_by(&String.length(elem(&1,0))) do %>
     <article class="item">
       <h3 class="name">Contador - <%= counter_id %> </h3>
       <button phx-value-id="<%= counter_id %>" phx-click="decrement">-</button>
