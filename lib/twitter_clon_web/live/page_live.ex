@@ -3,7 +3,7 @@ defmodule TwitterClonWeb.PageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, counters: gen_counters(10), query: "", results: %{})}
+    {:ok, assign(socket, counters: gen_counters(10), word: "", results: [""])}
   end
 
   def handle_event("increment", %{"id" => counter_id}, socket) do
@@ -19,38 +19,10 @@ defmodule TwitterClonWeb.PageLive do
     
   end
 
-  @impl true
-  def handle_event("suggest", %{"q" => query}, socket) do
-    {:noreply, assign(socket, results: search(query), query: query)}
+  def handle_event("add", %{"w" => word}, socket) do
+    {:noreply, assign(socket, results: add_words(socket.assigns.results, word))}
   end
 
-  @impl true
-  def handle_event("search", %{"q" => query}, socket) do
-    case search(query) do
-      %{^query => vsn} ->
-        {:noreply, redirect(socket, external: "https://hexdocs.pm/#{query}/#{vsn}")}
-
-      _ ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)}
-    end
-  end
-
-  defp search(query) do
-    if not TwitterClonWeb.Endpoint.config(:code_reloader) do
-      raise "action disabled when not in development"
-    end
-
-    for {app, desc, vsn} <- Application.started_applications(),
-        app = to_string(app),
-        String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
-        into: %{},
-        do: {app, vsn}
-  end
-
-  
   defp gen_counters(n) do
     Enum.to_list(1..n) |> Enum.reduce(%{}, &Map.put(&2, Integer.to_string(&1), 0)) 
   end
@@ -66,7 +38,11 @@ defmodule TwitterClonWeb.PageLive do
   defp add_counters(counters) do
     length = counters |> Map.keys() |> length()
     Map.put_new(counters, Integer.to_string(length+1), 0) 
-    
+  end
+  
+  defp add_words(results, word) do
+    length = results |> length()
+    results |> List.insert_at(length, word) 
   end
   
 end

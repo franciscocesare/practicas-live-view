@@ -2,6 +2,16 @@
 <section class="phx-hero">
   <h1><%= gettext "Welcome to %{name} Counters!", name: "Generate" %></h1>
   <p>Practice Phoenix and Elixir, never was most funny</p>
+
+  <form phx-submit="add">
+    <select class="container">
+      <%= for result <- @results do%>
+        <option value ><%= result %></option>
+      <% end %>
+  </select>
+    <input type="text" name="w" value="<%= @word %>" placeholder="Add words to list" list="results" autocomplete="off"/>
+    <button type="submit" phx-disable-with="Adding...">Add words</button>
+  </form>
 <button phx-click="create">Create Counters</button>
 </section>
 </div>
