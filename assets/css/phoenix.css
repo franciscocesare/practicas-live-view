@@ -98,6 +98,11 @@ header nav a {
   padding-bottom: 50px;
 }
 
+.word-line{
+  width: auto;
+  flex-direction: row;
+}
+
 .name{
   flex: 3;
 }

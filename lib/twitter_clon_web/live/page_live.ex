@@ -3,9 +3,14 @@ defmodule TwitterClonWeb.PageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, counters: gen_counters(10), word: "", results: [""])}
+    {:ok, assign(socket, counters: gen_counters(10), word: "", results: [])}
   end
-
+  
+  #Events
+  def handle_event("create", _params, socket) do
+    {:noreply, assign(socket, counters: add_counters(socket.assigns.counters))}
+    
+  end
   def handle_event("increment", %{"id" => counter_id}, socket) do
     {:noreply, assign(socket, counters: increment_counters(socket.assigns.counters, counter_id))}
   end
@@ -14,15 +19,17 @@ defmodule TwitterClonWeb.PageLive do
     {:noreply, assign(socket, counters: decrement_counters(socket.assigns.counters, counter_id))}
   end
   
-  def handle_event("create", _params, socket) do
-    {:noreply, assign(socket, counters: add_counters(socket.assigns.counters))}
-    
-  end
 
   def handle_event("add", %{"w" => word}, socket) do
     {:noreply, assign(socket, results: add_words(socket.assigns.results, word))}
   end
-
+  
+  def handle_event("delete_word", %{"value" => word}, socket) do
+   # IO.inspect(word)
+  {:noreply, assign(socket, results: delete_words(socket.assigns.results, word))}
+  end 
+  
+  #Functions
   defp gen_counters(n) do
     Enum.to_list(1..n) |> Enum.reduce(%{}, &Map.put(&2, Integer.to_string(&1), 0)) 
   end
@@ -43,6 +50,10 @@ defmodule TwitterClonWeb.PageLive do
   defp add_words(results, word) do
     length = results |> length()
     results |> List.insert_at(length, word) 
+  end
+  
+  defp delete_words(results, word) do
+    results |> List.delete(word)
   end
   
 end
