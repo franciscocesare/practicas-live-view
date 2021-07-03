@@ -21,11 +21,11 @@ defmodule TwitterClonWeb.PageLive do
   
 
   def handle_event("add", %{"w" => word}, socket) do
-    {:noreply, assign(socket, results: add_words(socket.assigns.results, word))}
+  if(word != "", do: {:noreply, assign(socket, results: add_words(socket.assigns.results, word))},
+  else: {:noreply, socket |> put_flash(:error, "The word can't be blank") |> assign(results: socket.assigns.results)})
   end
   
   def handle_event("delete_word", %{"value" => word}, socket) do
-   # IO.inspect(word)
   {:noreply, assign(socket, results: delete_words(socket.assigns.results, word))}
   end 
   
