@@ -1,18 +1,35 @@
+
   <div class="container">
    <section class="phx-hero">
     <h1><%= gettext "Welcome to %{name} Counters!", name: "Generate" %></h1>
       <p>Practice Phoenix and Elixir, never was most funny</p>
 
-      <%= live_patch "Add Words", to: Routes.word_index_path(@socket, :new) %>
-      <%=for result <- @results do %>
-        <div class="item">
-          <button phx-click="delete_word" value="<%= result %>">X</button>
-          <h2><%= result %></h2>
-        </div>
-      <% end %>
+      <%= live_patch "Add Words", to: Routes.word_index_path(@socket, :new), class: "button" %>
 
   <button phx-click="create">Create Counters</button>
 </section>
+<table>
+  <thead>
+    <tr>
+       <th>List Words</th>
+
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="words">
+    <%= for word <- @words do %>
+      <tr id="word-<%= word.id %>">
+        <td><%= word.new_word %></td>
+
+        <td>
+          <%# <span><%= live_redirect "Show", to: Routes.word_show_path(@socket, :show, word) </span> %>
+          <span><%= live_patch "Edit", to: Routes.word_index_path(@socket, :edit, word) %></span>
+          <%# <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: word.id, data: [confirm: "Are you sure?"]</span> %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 </div>
 <section class="container-fluid">
   <%= for {counter_id, value} <- @counters |> Enum.sort_by(&String.length(elem(&1,0))) do %>
