@@ -18,5 +18,5 @@
 
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.word_show_path(@socket, :edit, @word), class: "button" %></span>
-<span><%= live_redirect "Back", to: Routes.word_index_path(@socket, :index) %></span>
+<span><%= live_patch "Edit", to: Routes.page_path(@socket, :edit, @word), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.page_path(@socket, :index) %></span>
