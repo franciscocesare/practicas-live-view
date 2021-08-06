@@ -13,8 +13,8 @@
       <p>Practice Phoenix and Elixir, never was most funny</p>
 
       <%= live_patch "Add Words", to: Routes.page_path(@socket, :new), class: "button" %>
+      <%= live_patch "Add Counters", to: Routes.count_index_path(@socket, :new), class: "button" %>
 
-  <button phx-click="create">Create Counters</button>
 </section>
 <table>
   <thead>
@@ -40,12 +40,12 @@
 </table>
 </div>
 <section class="container-fluid">
-  <%= for {counter_id, value} <- @counters |> Enum.sort_by(&String.length(elem(&1,0))) do %>
+  <%= for count <- @counters do %>
     <article class="item">
-      <h3 class="name">Contador - <%= counter_id %> </h3>
-      <button phx-value-id="<%= counter_id %>" phx-click="decrement">-</button>
-      <span><%= value %></span>
-      <button phx-value-id="<%= counter_id %>" phx-click="increment">+</button>
+      <h3 class="name"><%= count.name_counter %> </h3>
+      <button phx-value-id="<%= count.id %>" phx-click="decrement">-</button>
+      <span><%= count.initial_count %></span>
+      <button phx-value-id="<%= count.id %>" phx-click="increment">+</button>
     </article>
   <% end %>
 </section>

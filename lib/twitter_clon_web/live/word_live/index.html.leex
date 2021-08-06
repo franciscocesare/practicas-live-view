@@ -1,0 +1,31 @@
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, TwitterClonWeb.WordLive.FormComponent,
+    id: @word.id || :new,
+    title: @page_title,
+    action: @live_action,
+    word: @word,
+    return_to: Routes.page_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <%# <th>New word</th> %>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="words">
+    <%= for word <- @words do %>
+      <tr id="word-<%= word.id %>">
+        <td><%= word.new_word %></td>
+
+        <td>
+          <%# <span><%= live_redirect "Show", to: Routes.word_show_path(@socket, :show, word) </span> %>
+          <span><%= live_patch "Edit", to: Routes.word_index_path(@socket, :edit, word) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: word.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
