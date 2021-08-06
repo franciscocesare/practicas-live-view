@@ -18,6 +18,14 @@ defmodule TwitterClonWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/words", WordLive.Index, :index
+    live "/words/new", WordLive.Index, :new
+    live "/words/:id/edit", WordLive.Index, :edit
+
+    live "/words/:id", WordLive.Show, :show
+    live "/words/:id/show/edit", WordLive.Show, :edit
+
+
   end
 
   # Other scopes may use custom stacks.

@@ -2,11 +2,8 @@
    <section class="phx-hero">
     <h1><%= gettext "Welcome to %{name} Counters!", name: "Generate" %></h1>
       <p>Practice Phoenix and Elixir, never was most funny</p>
-    <form phx-submit="add">
-      <input type="text" name="w" value="<%= @word %>" placeholder="Add words to list" list="results" autocomplete="off"/>
-      <button type="submit" phx-disable-with="Adding...">Add words</button>
-    </form>
 
+      <%= live_patch "Add Words", to: Routes.word_index_path(@socket, :new) %>
       <%=for result <- @results do %>
         <div class="item">
           <button phx-click="delete_word" value="<%= result %>">X</button>

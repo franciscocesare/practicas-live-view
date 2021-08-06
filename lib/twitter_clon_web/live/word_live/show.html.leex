@@ -1,0 +1,22 @@
+<h1>Show Word</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, TwitterClonWeb.WordLive.FormComponent,
+    id: @word.id,
+    title: @page_title,
+    action: @live_action,
+    word: @word,
+    return_to: Routes.word_show_path(@socket, :show, @word) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>New word:</strong>
+    <%= @word.new_word %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.word_show_path(@socket, :edit, @word), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.word_index_path(@socket, :index) %></span>
