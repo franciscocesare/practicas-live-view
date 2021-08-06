@@ -1,0 +1,27 @@
+<h1>Show Count</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, TwitterClonWeb.CountLive.FormComponent,
+    id: @count.id,
+    title: @page_title,
+    action: @live_action,
+    count: @count,
+    return_to: Routes.count_show_path(@socket, :show, @count) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name counter:</strong>
+    <%= @count.name_counter %>
+  </li>
+
+  <li>
+    <strong>Initial count:</strong>
+    <%= @count.initial_count %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.count_show_path(@socket, :edit, @count), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.count_index_path(@socket, :index) %></span>

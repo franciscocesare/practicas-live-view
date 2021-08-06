@@ -1,0 +1,18 @@
+<h2><%= @title %></h2>
+
+<%= f = form_for @changeset, "#",
+  id: "count-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <%= label f, :name_counter %>
+  <%= text_input f, :name_counter %>
+  <%= error_tag f, :name_counter %>
+
+  <%= label f, :initial_count %>
+  <%= number_input f, :initial_count %>
+  <%= error_tag f, :initial_count %>
+
+  <%= submit "Save", phx_disable_with: "Saving..." %>
+</form>

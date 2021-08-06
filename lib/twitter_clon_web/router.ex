@@ -17,9 +17,16 @@ defmodule TwitterClonWeb.Router do
   scope "/", TwitterClonWeb do
     pipe_through :browser
 
+    live "/counters", CountLive.Index, :index
+    live "/counters/new", CountLive.Index, :new
+    live "/counters/:id/edit", CountLive.Index, :edit
+
+    live "/counters/:id", CountLive.Show, :show
+    live "/counters/:id/show/edit", CountLive.Show, :edit
+
+    
     live "/", PageLive, :index
     live "/words", PageLive, :index
-
     live "/:id/edit", PageLive, :edit
     live "/new", PageLive, :new 
     

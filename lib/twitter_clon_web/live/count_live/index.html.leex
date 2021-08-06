@@ -1,0 +1,37 @@
+<h1>Listing Counters</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, TwitterClonWeb.CountLive.FormComponent,
+    id: @count.id || :new,
+    title: @page_title,
+    action: @live_action,
+    count: @count,
+    return_to: Routes.count_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name counter</th>
+      <th>Initial count</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="counters">
+    <%= for count <- @counters do %>
+      <tr id="count-<%= count.id %>">
+        <td><%= count.name_counter %></td>
+        <td><%= count.initial_count %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.count_show_path(@socket, :show, count) %></span>
+          <span><%= live_patch "Edit", to: Routes.count_index_path(@socket, :edit, count) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: count.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Count", to: Routes.count_index_path(@socket, :new) %></span>
