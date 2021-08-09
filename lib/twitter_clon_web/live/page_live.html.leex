@@ -42,6 +42,7 @@
 <section class="container-fluid">
   <%= for count <- @counters do %>
     <article class="item">
+          <span><%= link "Delete", to: "#", phx_click: "delete-counter", phx_value_id: count.id, data: [confirm: "Are you sure?"] %></span>
       <h3 class="name"><%= count.name_counter %> </h3>
       <button phx-value-id="<%= count.id %>" phx-click="decrement">-</button>
       <span><%= count.initial_count %></span>

@@ -19,6 +19,7 @@ defmodule TwitterClon.Counters do
   """
   def list_counters do
     Repo.all(Count)
+    |> Enum.sort()
   end
 
   @doc """

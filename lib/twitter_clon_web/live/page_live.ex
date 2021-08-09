@@ -49,6 +49,13 @@ defmodule TwitterClonWeb.PageLive do
     {:noreply, assign(socket, :words, ListWords.list_words())}
   end
 
+  def handle_event("delete-counter", %{"id" => id}, socket) do
+    counter = Counters.get_count!(id)
+    {:ok, _} = Counters.delete_count(counter)
+
+    {:noreply, assign(socket, :counters, Counters.list_counters())}
+  end
+
   @impl true
   def handle_event("increment", %{"id" => counter_id}, socket) do
     count = Counters.get_count!(counter_id)
@@ -64,6 +71,4 @@ defmodule TwitterClonWeb.PageLive do
 
     {:noreply, assign(socket, counters: Counters.list_counters())}
   end
-
-
 end
