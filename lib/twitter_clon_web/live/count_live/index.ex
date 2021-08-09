@@ -42,5 +42,6 @@ defmodule TwitterClonWeb.CountLive.Index do
 
   defp list_counters do
     Counters.list_counters()
+
   end
 end

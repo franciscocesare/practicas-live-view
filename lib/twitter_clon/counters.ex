@@ -19,7 +19,8 @@ defmodule TwitterClon.Counters do
   """
   def list_counters do
     Repo.all(Count)
-    |> Enum.sort()
+    |> Enum.sort_by(& &1.name_counter, :asc)
+    #|> IO.inspect()
   end
 
   @doc """
