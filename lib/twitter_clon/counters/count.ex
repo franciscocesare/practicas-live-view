@@ -3,7 +3,7 @@ defmodule TwitterClon.Counters.Count do
   import Ecto.Changeset
 
   schema "counters" do
-    field :initial_count, :integer
+    field :initial_count, :integer, default: 0
     field :name_counter, :string
 
     timestamps()

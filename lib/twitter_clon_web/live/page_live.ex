@@ -5,19 +5,20 @@ defmodule TwitterClonWeb.PageLive do
   alias TwitterClon.ListWords.Word
 
   alias TwitterClon.Counters
+  alias TwitterClon.Counters.Count
 
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
        counters: Counters.list_counters(),
+       count: %Count{},
        page_title: "New Word",
        word: %Word{},
        words: ListWords.list_words()
      )}
   end
 
-  # Events
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
@@ -48,24 +49,21 @@ defmodule TwitterClonWeb.PageLive do
     {:noreply, assign(socket, :words, ListWords.list_words())}
   end
 
+  @impl true
   def handle_event("increment", %{"id" => counter_id}, socket) do
-    {:noreply, assign(socket, counters: increment_counters(socket.assigns.counters, counter_id))}
+    count = Counters.get_count!(counter_id)
+    {:ok, _} = Counters.update_count(count, %{:initial_count => count.initial_count + 1})
+
+    {:noreply, assign(socket, counters: Counters.list_counters())}
   end
 
+  @impl true
   def handle_event("decrement", %{"id" => counter_id}, socket) do
-    {:noreply, assign(socket, counters: decrement_counters(socket.assigns.counters, counter_id))}
+    count = Counters.get_count!(counter_id)
+    {:ok, _} = Counters.update_count(count, %{:initial_count => count.initial_count - 1})
+
+    {:noreply, assign(socket, counters: Counters.list_counters())}
   end
 
-  # Functions
-  defp gen_counters(n) do
-    Enum.to_list(1..n) |> Enum.reduce(%{}, &Map.put(&2, Integer.to_string(&1), 0))
-  end
 
-  defp increment_counters(counters, counter_id) do
-    Map.update(counters, counter_id, 1, &(&1 + 1))
-  end
-
-  defp decrement_counters(counters, counter_id) do
-    Map.update(counters, counter_id, 5, &(&1 - 1))
-  end
 end
